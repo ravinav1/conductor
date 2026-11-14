@@ -4,7 +4,7 @@ Models/agents allowed: <list + launch command for each>
 Web reasoner (optional): <tool, project/folder to use, where answers are saved>
 Layout: draft/ (masters), draft/archive/, swarm/<round>/out/, pro/
 Current master: v<N> (<file>)
-Run log: ~/.swarm-conductor/log.md
+Run log: ~/.conductor/log.md
 Decided:
 Proposed:
 Open (owner's call):

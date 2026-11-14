@@ -1,4 +1,4 @@
-# swarm-conductor
+# conductor
 
 An agent skill that runs several AI models in parallel on the same document, plan, or idea, then merges what they write into a numbered, versioned master. It also logs its own mistakes and fixes itself over time.
 
@@ -26,7 +26,7 @@ Asking one model to review your work gets you one opinion, usually a polite one.
 Copy or clone this folder into your agent's skills directory, for example:
 
 ```bash
-git clone <this repo> ~/.claude/skills/swarm-conductor
+git clone <this repo> ~/.claude/skills/conductor
 ```
 
 Then say "swarm this doc" (or similar) to your agent.
@@ -67,7 +67,7 @@ This is an optional cheat sheet for one project: which models to use and how to 
 
 ## Self-improvement
 
-The conductor appends one entry per run to an append-only log (default `~/.swarm-conductor/log.md`). It edits `SKILL.md` only when the same friction shows up twice, the human corrects it, or a completion was missed. It makes at most one edit per run and snapshots the previous version first so the change can be rolled back. The rules are in the last section of `SKILL.md`.
+The conductor appends one entry per run to an append-only log (default `~/.conductor/log.md`). It edits `SKILL.md` only when the same friction shows up twice, the human corrects it, or a completion was missed. It makes at most one edit per run and snapshots the previous version first so the change can be rolled back. The rules are in the last section of `SKILL.md`.
 
 ## License
 

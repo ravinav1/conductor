@@ -1,5 +1,5 @@
 ---
-name: swarm-conductor
+name: conductor
 description: >-
   When the user says "swarm" or asks to run several AI agents/models in parallel
   on a document, idea, plan, or deliverable (and merge their output into a
@@ -16,7 +16,7 @@ You are the conductor, not the reasoner. The agents think; you launch, watch, me
 ## 0. Load project context first
 1. Look for `<project root>/swarm/CONDUCTOR.md` (in the project's root folder). It is the project's cheat sheet: which models to use and how to launch them, where files go, the current master version, and what's already Decided or Parked, so every swarm starts from the same place.
 2. If it's missing, don't block the run and don't make the user fill a form. Infer what you can from the project folder and past outputs, ask at most one question if something essential is unknown (usually which models), and run. Afterwards offer once, in one sentence, to save those settings as CONDUCTOR.md. If they decline, note the settings at the top of that round's STATUS.md and don't offer again until a later run causes friction it would have prevented.
-3. Read the run log the run log (default `~/.swarm-conductor/log.md`, see Self-improvement) (last ~10 entries) and apply its lessons.
+3. Read the run log the run log (default `~/.conductor/log.md`, see Self-improvement) (last ~10 entries) and apply its lessons.
 4. Check that the machine that will run the agents is reachable and that each agent CLI is installed and signed in. If not, say so in one line and offer an alternative.
 
 ## 1. Frame the round
@@ -65,7 +65,7 @@ You are the conductor, not the reasoner. The agents think; you launch, watch, me
 Lessons live in an append-only log file, not in chat memory. Helper agents may append to the log but never edit the skill; the conductor applies at most one edit at the end of a run. Project-specific lessons go in CONDUCTOR.md; only generic lessons go in this skill.
 
 ### Run log
-Path: `~/.swarm-conductor/log.md` by default, or wherever CONDUCTOR.md says (create if missing). Keep it outside the skill folder so updates to the skill don't wipe it. Append only. Each run:
+Path: `~/.conductor/log.md` by default, or wherever CONDUCTOR.md says (create if missing). Keep it outside the skill folder so updates to the skill don't wipe it. Append only. Each run:
 
 ```
 ## YYYY-MM-DD HH:MM <tz> | skill vN | outcome: success|friction|fail|user-fix
