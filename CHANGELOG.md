@@ -1,5 +1,6 @@
 # Changelog
 
+- v4 — 2026-11-14 — Merged from a four-agent review round (critic, builder, red team, outsider). Watcher: done only when the process exited cleanly and the last line is `ALL DONE`; bad arguments and unwritable status no longer report success; early-failure exit (4); exit-code records; manual agents and hand notes; optional kill on timeout. Launcher: briefs on stdin, models pinned per agent, read-only agents, preflight before any launch, fresh round folders, archived retries, process groups. New `scripts/stop.sh` and `scripts/selftest.sh`. Skill: wake-up safeguards (notified background job, STATUS.md first on every check-in, stale-status check), mechanical merge with contested points sent to the human, evidence-backed findings, `RUN.md`, tighter self-edit and log rules. README rewritten for first-time users.
 - v3 — 2026-11-14 — Built-in pushback: a required red-team agent on a different model family, briefs that don't reveal whose idea the material is, and at least three rated disagreements per agent.
 - v2 — 2026-11-14 — Real completion watcher (`scripts/watch.sh`) with crash detection and timeout. CONDUCTOR.md is optional. The conductor asks before launching when the direction is unclear, and reports always list raw output paths.
 - v1 — 2026-11-14 — Initial version.
