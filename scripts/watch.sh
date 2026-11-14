@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# swarm-conductor completion watcher. Portable (macOS bash 3.2 + Linux).
+# conductor completion watcher. Portable (macOS bash 3.2 + Linux).
 # Usage: watch.sh <round_dir> <timeout_minutes> <agent> [agent ...]
 # Expects: <round_dir>/out/<agent>.md (agent output, last line "ALL DONE")
 # Optional: <round_dir>/out/<agent>.pid (agent PID, to detect crashes)
