@@ -17,8 +17,8 @@ Parked, out of scope: <list>
 <critic | builder | outsider | reviewer | red team: argue against the master, list the strongest objections and the most likely ways it fails>
 
 ## Required
-- At least three concrete disagreements or weaknesses, each rated high/medium/low with a one-line reason. Praise alone counts as a failed output.
-- For each one: an ID, the exact passage or location, the concrete failure or consequence, and a proposed replacement or a way to check it.
+- Concrete disagreements or weaknesses, each rated high/medium/low with a one-line reason. There is no minimum: if you find nothing substantive, say so and say what you checked.
+- For each point: an ID, the exact passage or location, the concrete failure or consequence, and a proposed replacement or a way to check it.
 - Say which points you observed or tested and which are untested hypotheses. Explain severity by impact, not emphasis.
 - Concrete proposed changes, quoted against the material where possible.
 

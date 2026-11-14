@@ -10,8 +10,9 @@ Parallel review is useful when agents look at the material from genuinely differ
 
 - **Recorded completion.** The launcher records each agent's exit code. The watcher counts an agent as done only when its process has exited cleanly and its answer ends with `ALL DONE`, notices crashes and early failures, and enforces a timeout.
 - **Visible progress.** While the watcher runs it rewrites `STATUS.md` about every 15 seconds with each agent's state and last output line. Some CLIs print nothing until they finish, so an empty output file alone doesn't mean an agent is stuck.
-- **Built-in pushback.** Every round has a red-team agent on a different model family. Briefs never reveal whose idea the material is, and every agent must name at least three concrete, rated weaknesses, each tied to a passage and a proposed fix.
-- **Versioned output.** Each round produces `draft/<name>-vN.md`, a changelog saying who proposed what, and at most five questions only the human can answer. Contested proposals become questions, not edits.
+- **Built-in pushback.** Every round has a red-team agent on a different model family. Briefs never reveal whose idea the material is, and agents are asked for concrete, rated critique tied to a passage and a proposed fix. There is no quota, so agents aren't pushed to invent objections.
+- **Merge or review.** By default each round produces a new master. Say "just review" and it only collects the reviews into `swarm/<round>/review.md` and `questions.md`, with no new master and no version bump.
+- **Versioned output.** Each merge round produces `draft/<name>-vN.md`, a changelog saying who proposed what, and at most five questions only the human can answer. Contested proposals become questions, not edits.
 - **Decisions stay decided.** Items marked Decided or Parked are never reopened unless the human asks.
 - **It improves itself.** Every run is logged. A friction that repeats, or any correction from the human, leads to a small, snapshotted edit to the skill.
 
@@ -78,7 +79,8 @@ You don't need to write the briefs yourself, and `CONDUCTOR.md` is optional (see
   swarm/
     CONDUCTOR.md            # optional per-project settings (templates/CONDUCTOR.md)
     r01/                    # one folder per round, never reused
-      RUN.md                # settings actually used: models, material version, limits
+      RUN.md                # settings actually used: mode, models, material version, limits
+      review.md, questions.md  # review mode only: summarized reviews + owner questions
       brief-<agent>.md      # the exact prompt each agent got (on stdin)
       out/<agent>.md        # the agent's final answer, ending in ALL DONE
       out/<agent>.err       # its progress and error output
@@ -143,7 +145,7 @@ CLAUDE_MODEL=<claude model id> CODEX_MODEL=<codex model id> \
 
 ## Self-improvement
 
-The conductor appends one entry per run to an append-only log (default `~/.conductor/log.md`); entries are never removed or rewritten. It edits the skill only when the same friction shows up twice, the human corrects it, or a completion was missed. It makes at most one edit per run, snapshots every file it touches first so the change can be rolled back, and re-runs the self-test after changing a script. If the skill folder is read-only, it records the proposed diff instead. Local edits stay in your copy; they aren't sent anywhere. The rules are in the last section of `SKILL.md`.
+The conductor appends one entry per run to an append-only log (default `~/.conductor/log.md`); entries are never removed or rewritten. It edits the skill only when the same friction shows up twice, the human corrects it, or a completion was missed. Small, local fixes are applied automatically; larger or important changes (hard rules, the pushback design, merge or mode behavior, script logic, or more than ~15 lines) are written to `~/.conductor/proposals.md` and applied only after the human says yes. It makes at most one edit per run, snapshots every file it touches first so the change can be rolled back, and re-runs the self-test after changing a script. If the skill folder is read-only, it records the proposed diff instead. Local edits stay in your copy; they aren't sent anywhere. The rules are in the last section of `SKILL.md`.
 
 ## License
 
