@@ -11,6 +11,7 @@ Parallel review is useful when agents look at the material from genuinely differ
 - **Recorded completion.** The launcher records each agent's exit code. The watcher counts an agent as done only when its process has exited cleanly and its answer ends with `ALL DONE`, notices crashes and early failures, and enforces a timeout.
 - **Visible progress.** While the watcher runs it rewrites `STATUS.md` about every 15 seconds with each agent's state and last output line. Some CLIs print nothing until they finish, so an empty output file alone doesn't mean an agent is stuck.
 - **Built-in pushback.** Every round has a red-team agent on a different model family. Briefs never reveal whose idea the material is, and agents are asked for concrete, rated critique tied to a passage and a proposed fix. There is no quota, so agents aren't pushed to invent objections.
+- **Sized to the task, then converged.** There is no fixed agent count: simple material gets a few agents, hard or contested questions get more angles, fresh-context agents and every model family you allowed. When agents disagree or leave gaps, the conductor runs convergence rounds with fresh agents, who see the disputed points without names attached, until they agree or the same split survives two fresh rounds. Only those leftover splits come to you.
 - **Merge or review.** By default each round produces a new master. Say "just review" and it only collects the reviews into `swarm/<round>/review.md` and `questions.md`, with no new master and no version bump.
 - **Versioned output.** Each merge round produces `draft/<name>-vN.md`, a changelog saying who proposed what, and at most five questions only the human can answer. Contested proposals become questions, not edits.
 - **Decisions stay decided.** Items marked Decided or Parked are never reopened unless the human asks.
@@ -21,7 +22,7 @@ Parallel review is useful when agents look at the material from genuinely differ
 - An agent that can load skills (`SKILL.md` with YAML frontmatter) and run shell commands, such as Claude Code or Codex CLI. Any agent that follows markdown instructions works in principle.
 - Signed-in, headless access to models from at least two model families, for example `claude -p` and `codex exec`. Two CLI names alone don't guarantee two families; check which model each one is set to. A web chat also works if you paste its answers in by hand.
 - `bash` 3.2+ and standard `ps`, `grep`, `sed`, `tr` (the macOS and Linux defaults work).
-- Each agent call sends its brief and the material to that model's provider and uses your account's quota or API credit. A round of three or four frontier models, plus retries, can be expensive; set a spend cap in `CONDUCTOR.md` if that matters.
+- Each agent call sends its brief and the material to that model's provider and uses your account's quota or API credit. Because swarms are sized to the task and convergence rounds run without asking, a hard question can mean many frontier-model calls; set a spend cap in `CONDUCTOR.md` if that matters.
 
 ## Install
 
@@ -60,7 +61,8 @@ What happens next:
 
 1. The conductor copies `plan.md` to `draft/plan-v1.md` (your original is never edited), writes one brief per agent from `templates/brief.md`, records the settings in the round's `RUN.md`, and checks that each CLI is installed and signed in.
 2. It tells you in one line what is launching, then starts the agents in the background and arms the watcher.
-3. When the watcher exits, the conductor merges: undisputed changes go into `draft/plan-v2.md`, contested ones become questions for you, and you get the paths to every agent's raw output.
+3. When the watcher exits, the conductor merges: undisputed changes go into `draft/plan-v2.md` and you get the paths to every agent's raw output.
+4. If agents disagreed, it runs convergence rounds with fresh agents on the disputed points (a one-line status after each). Whatever is still split after that becomes a question for you, and you get one report for the whole run.
 
 You don't need to write the briefs yourself, and `CONDUCTOR.md` is optional (see below).
 
